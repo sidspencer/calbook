@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CalDate } from '../data-objects/cal-date';
+import { NumberUtil } from '../util-objects/number-util';
+import { QsParam } from '../data-objects/enums';
 
 @Component({
   selector: 'app-calendar-nav',
@@ -8,24 +10,21 @@ import { CalDate } from '../data-objects/cal-date';
   styleUrls: ['./calendar-nav.component.scss']
 })
 export class CalendarNavComponent implements OnInit {
-  protected calDate: CalDate;
+  protected calDate: CalDate = new CalDate('20010101');
 
-  protected dd: number = 1;
-  protected mm: number = 1;
-  protected yyyy: number = 2001;
-
-  constructor(protected router: Router) { }
+  constructor(protected router: Router, protected activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.calDate = new CalDate('20010101');
+    this.activatedRoute.params.subscribe((params: any[]) => {
+      const newDate = new CalDate(params[QsParam.DateCode]);
+      this.calDate.yyyy = newDate.yyyy;
+      this.calDate.mm = newDate.mm;
+      this.calDate.dd = newDate.dd;
+    });
   }
 
   protected displayDaySchedule(): void {
-    this.calDate.dd = this.dd;
-    this.calDate.mm = this.mm;
-    this.calDate.yyyy = this.yyyy;
-    
-    const dateString: string = this.calDate.toDateCode();
-    this.router.navigateByUrl(`/day-schedule/${dateString}`);
+    const dateCode: string = NumberUtil.toDateCode(this.calDate);
+    this.router.navigateByUrl(`/day-schedule/${dateCode}`);
   }
 }
