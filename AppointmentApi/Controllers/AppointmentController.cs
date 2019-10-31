@@ -10,12 +10,12 @@ namespace CalBookApi
     {
         private readonly ICalBookRepository calBookRepo;
 
-        public AppointmentController(ICalBookRepository gameRepository)
+        public AppointmentController(ICalBookRepository calBookRepository)
         {
-            calBookRepo = gameRepository;
+            calBookRepo = calBookRepository;
         }
 
-        // GET: api/Game
+        // GET: api/Appointment
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -28,52 +28,52 @@ namespace CalBookApi
             return new ObjectResult(await calBookRepo.GetAppointmentsByDate(dateCode));
         }
 
-        // GET: api/Game/name
-        [HttpGet("{name}", Name = "Get")]
-        public async Task<IActionResult> Get(string name)
+        // GET: api/Appointment/name
+        [HttpGet("{id}", Name = "Get")]
+        public async Task<IActionResult> Get(ObjectId id)
         {
-            var game = await calBookRepo.GetAppointment(name);
+            var appointment = await calBookRepo.GetAppointment(id);
 
-            if (game == null)
+            if (appointment == null)
                 return new NotFoundResult();
 
-            return new ObjectResult(game);
+            return new ObjectResult(appointment);
         }
 
         // POST: api/Game
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Appointment game)
+        public async Task<IActionResult> Post([FromBody]Appointment appointment)
         {
-            await calBookRepo.CreateAppointment(game);
-            return new OkObjectResult(game);
+            await calBookRepo.CreateAppointment(appointment);
+            return new OkObjectResult(appointment);
         }
 
         // PUT: api/Game/5
-        [HttpPut("{name}")]
-        public async Task<IActionResult> Put(string name, [FromBody]Appointment game)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(ObjectId id, [FromBody]Appointment appointment)
         {
-            var gameFromDb = await calBookRepo.GetAppointment(name);
+            var appointmentFromDb = await calBookRepo.GetAppointment(id);
 
-            if (gameFromDb == null)
+            if (appointmentFromDb == null)
                 return new NotFoundResult();
 
-            game.id = gameFromDb.id;
+            appointment.id = appointmentFromDb.id;
 
-            await calBookRepo.UpdateAppointment(game);
+            await calBookRepo.UpdateAppointment(appointment);
 
-            return new OkObjectResult(game);
+            return new OkObjectResult(appointment);
         }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{name}")]
-        public async Task<IActionResult> Delete(string name)
+        // DELETE: api/Appointment/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(ObjectId id)
         {
-            var gameFromDb = await calBookRepo.GetAppointment(name);
+            var appointmentFromDb = await calBookRepo.GetAppointment(id);
 
-            if (gameFromDb == null)
+            if (appointmentFromDb == null)
                 return new NotFoundResult();
 
-            await calBookRepo.DeleteAppointment(name);
+            await calBookRepo.DeleteAppointment(id);
 
             return new OkResult();
         }
