@@ -1,0 +1,14 @@
+<h2>Schedule for: {{ calDate.yyyy }} {{ calDate.mm }} {{ calDate.dd }}</h2>
+
+
+<div class="schedule-stage">
+    <div class="day-schedule">
+        <div *ngFor="let t of timeslots" class="hour-timeslot">
+            {{ t.hour }}:00
+            <span *ngIf="getAppointmentByTimeslot(t) !== undefined" class="appointment-holder">
+                <span class="appointment" (click)="editAppointment(getAppointmentByTimeslot(t))">{{ getAppointmentByTimeslot(t).notes }}</span>
+            </span>
+        </div>
+    </div>  
+</div>
+ 

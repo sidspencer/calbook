@@ -1,0 +1,16 @@
+<div class="appointment-editor-holder">
+  <p>
+    appointment-editor
+  </p>
+
+  <ul>
+    <li>Cal Date: {{ appointment.calDate.toUsaDateFormat ? appointment.calDate.toUsaDateFormat() : '' }}</li>
+    <li>Timeslot: {{ appointment.timeslot.hour }}:00</li>
+    <li>Notes: {{ appointment.notes }}</li>
+  </ul>
+
+  <div>
+    <button (click)="save()">Save</button>
+    <button (click)="close()">Close</button>
+  </div>
+</div>
