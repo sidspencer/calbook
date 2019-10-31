@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DayScheduleComponent } from './day-schedule/day-schedule.component';
 
 const routes: Routes = [
-  { path: 'day-schedule/:dateString', component: DayScheduleComponent },
+  { path: 'day-schedule/:dateCode', component: DayScheduleComponent },
   { path: '', redirectTo: '/', pathMatch: 'full' },
 ];
 
