@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Appointment } from '../data-objects/appointment';
-import { CalDate } from '../data-objects/cal-date';
 import { NumberUtil } from '../util-objects/number-util';
+import { DialogResult } from '../data-objects/enums';
 
 @Component({
   selector: 'app-appointment-editor',
@@ -23,12 +23,12 @@ export class AppointmentEditorComponent implements OnInit {
 
   protected close() {
     console.log('[appointment-editor] called "close()"');
-    this.dialogRef.close(0);
+    this.dialogRef.close(DialogResult.Ok);
   }
 
   protected save() {
     console.log('[appointment-editor] called "save()"');
-    this.dialogRef.close(0);
+    this.dialogRef.close(DialogResult.Saved);
   }
 
 }
