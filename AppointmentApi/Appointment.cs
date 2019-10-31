@@ -7,7 +7,11 @@ namespace CalBookApi
     [BsonIgnoreExtraElements]
     public class Appointment
     {   
-        public ObjectId id;
+        [BsonId]
+        public ObjectId _id { get; set; }
+
+        [BsonIgnore]
+        public ObjectId id { get; set; }
 
         [BsonElement(elementName: "calDate")]
         public CalDate calDate { get; set; }
@@ -19,7 +23,9 @@ namespace CalBookApi
         public string notes { get; set; }
 
         [BsonConstructor]
-        public Appointment(CalDate caldate, Timeslot timeSlot, string notes) {
+        public Appointment(ObjectId _id, CalDate caldate, Timeslot timeSlot, string notes) {
+            this._id = _id;
+            this.id = _id;
             this.calDate = new CalDate(caldate.dd, caldate.mm, caldate.yyyy);
             this.timeslot = new Timeslot(timeSlot.hour);
             this.notes = notes;
