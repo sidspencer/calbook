@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { CalDate } from '../classes/cal-date';
+import { CalDate } from '../data-objects/cal-date';
 
 @Component({
   selector: 'app-calendar-nav',

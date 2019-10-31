@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { TimeVal } from '../classes/enums';
+import { TimeVal } from '../data-objects/enums';
 import { CalendarService } from '../services/calendar.service';
-import { CalDate } from '../classes/cal-date';
-import { DaySchedule } from '../classes/day-schedule';
-import { Timeslot } from '../classes/timeslot';
-import { Appointment } from '../classes/appointment';
+import { CalDate } from '../data-objects/cal-date';
+import { DaySchedule } from '../data-objects/day-schedule';
+import { Timeslot } from '../data-objects/timeslot';
+import { Appointment } from '../data-objects/appointment';
 import { MatDialog } from '@angular/material/dialog';
 import { AppointmentEditorComponent } from '../appointment-editor/appointment-editor.component';
 

@@ -1,5 +1,5 @@
 import { CalDate } from './cal-date';
-import { Timeslot as Timeslot } from './timeslot';
+import { Timeslot } from './timeslot';
 
 export class Appointment {
     public id: any;

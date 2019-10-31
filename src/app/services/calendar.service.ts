@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { DaySchedule } from '../classes/day-schedule';
+import { DaySchedule } from '../data-objects/day-schedule';
 import { HttpClient } from '@angular/common/http';
-import { CalDate } from '../classes/cal-date';
-import { Appointment } from '../classes/appointment';
-import { Timeslot } from '../classes/timeslot';
+import { CalDate } from '../data-objects/cal-date';
+import { Appointment } from '../data-objects/appointment';
+import { Timeslot } from '../data-objects/timeslot';
 
 @Injectable({
   providedIn: 'root'
