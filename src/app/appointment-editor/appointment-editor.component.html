@@ -4,7 +4,7 @@
   </p>
 
   <ul>
-    <li>Cal Date: {{ appointment.calDate.toUsaDateFormat ? appointment.calDate.toUsaDateFormat() : '' }}</li>
+    <li>Cal Date: {{ formattedDate }}</li>
     <li>Timeslot: {{ appointment.timeslot.hour }}:00</li>
     <li>Notes: {{ appointment.notes }}</li>
   </ul>

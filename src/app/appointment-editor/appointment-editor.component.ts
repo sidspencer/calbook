@@ -1,7 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { Appointment } from '../classes/appointment';
-import { CalDate } from '../classes/cal-date';
+import { Appointment } from '../data-objects/appointment';
+import { CalDate } from '../data-objects/cal-date';
+import { NumberUtil } from '../util-objects/number-util';
 
 @Component({
   selector: 'app-appointment-editor',
@@ -15,11 +16,10 @@ export class AppointmentEditorComponent implements OnInit {
   constructor(protected dialogRef: MatDialogRef<AppointmentEditorComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
     this.appointment = this.data as Appointment;
+    this.formattedDate = NumberUtil.toUsaDateFormat(this.appointment.calDate);
   }
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
 
   protected close() {
     console.log('[appointment-editor] called "close()"');
