@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { TimeVal } from '../data-objects/enums';
+import { TimeVal, QsParam, DialogResult } from '../data-objects/enums';
 import { CalendarService } from '../services/calendar.service';
 import { CalDate } from '../data-objects/cal-date';
-import { DaySchedule } from '../data-objects/day-schedule';
 import { Timeslot } from '../data-objects/timeslot';
 import { Appointment } from '../data-objects/appointment';
 import { MatDialog } from '@angular/material/dialog';
 import { AppointmentEditorComponent } from '../appointment-editor/appointment-editor.component';
+import { NumberUtil } from '../util-objects/number-util';
 
 @Component({
   selector: 'app-day-schedule',
@@ -16,6 +16,7 @@ import { AppointmentEditorComponent } from '../appointment-editor/appointment-ed
 })
 export class DayScheduleComponent implements OnInit {
   protected calDate: CalDate;
+  protected formattedDate: string;
   protected appointments: Appointment[] = [];
   protected timeslots: Timeslot[] = [];
   protected dialog: any = undefined;
@@ -27,19 +28,23 @@ export class DayScheduleComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params: any[]) => {
-      this.calDate = new CalDate(params['dateString']);
+      this.calDate = new CalDate(params[QsParam.DateCode]);
+      this.formattedDate = NumberUtil.toUsaDateFormat(this.calDate);
+      this.rebuildSchedule();
+    });
+  }
 
-      this.calendarService.fetchAppointmentsByDate(this.calDate).subscribe((appointments: Appointment[]) => {
-        this.appointments.splice(0);
-        appointments.forEach((a: Appointment) => {
-          this.appointments.push(a);
-        });
-
-        this.timeslots = [];
-        for (let i = 0; i < TimeVal.HoursInDay; i++) {
-          this.timeslots.push(new Timeslot(i));
-        }
+  protected rebuildSchedule(): void {
+    this.calendarService.fetchAppointmentsByDate(this.calDate).subscribe((appointments: Appointment[]) => {
+      this.appointments.splice(0);
+      appointments.forEach((a: Appointment) => {
+        this.appointments.push(a);
       });
+
+      this.timeslots = [];
+      for (let i = 0; i < TimeVal.HoursInDay; i++) {
+        this.timeslots.push(new Timeslot(i));
+      }
     });
   }
 
@@ -52,10 +57,25 @@ export class DayScheduleComponent implements OnInit {
       data: a
     });
 
-    this.dialog.afterClosed().subscribe((result: number) => {
+    this.dialog.afterClosed().subscribe((result: DialogResult) => {
       this.dialog = undefined;
       console.log('[day-schedule] closed dialog.');
+
+      if (result === DialogResult.Saved) {
+        this.calendarService.updateAppointment(a).subscribe((res: any) => {
+          this.rebuildSchedule();
+        });
+      } else if (result === DialogResult.Deleted) {
+        this.calendarService.deleteAppointment(a).subscribe((res: any) => {
+
+        });
+      }
     });
+  }
+
+  protected scheduleAppointment(t: Timeslot) {
+    const appointment: Appointment = new Appointment(this.calDate, t, '');
+    this.editAppointment(appointment);
   }
 
   protected getAppointmentByTimeslot(t: Timeslot) {
