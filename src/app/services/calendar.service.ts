@@ -10,6 +10,9 @@ import { Timeslot } from '../data-objects/timeslot';
   providedIn: 'root'
 })
 export class CalendarService {
+  deleteAppointment(a: Appointment): Observable<any> {
+    return (this.http.delete(`http://localhost:5000/api/appointment/${a.id}`) as Observable<any>);
+  }
 
   constructor(protected http: HttpClient) { }
 
@@ -28,6 +31,10 @@ export class CalendarService {
 
   public fetchAllAppointments(): Observable<Appointment[]> {
     return (this.http.get('http://localhost:5000/api/appointment')) as Observable<Appointment[]>;
+  }
+
+  public updateAppointment(a: Appointment) {
+    return (this.http.post('http://localhost:5000/api/appointment', { body: a }));
   }
 
   private generateAppointments(date: CalDate): Appointment[] {
