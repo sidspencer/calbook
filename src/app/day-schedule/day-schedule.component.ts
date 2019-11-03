@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { TimeVal, QsParam, DialogResult } from '../data-objects/enums';
 import { CalendarService } from '../services/calendar.service';
 import { CalDate } from '../data-objects/cal-date';
@@ -8,7 +8,6 @@ import { Appointment } from '../data-objects/appointment';
 import { MatDialog } from '@angular/material/dialog';
 import { AppointmentEditorComponent } from '../appointment-editor/appointment-editor.component';
 import { NumberUtil } from '../util-objects/number-util';
-import { ObjectId } from '../data-objects/object-id';
 
 @Component({
   selector: 'app-day-schedule',
@@ -60,10 +59,9 @@ export class DayScheduleComponent implements OnInit {
 
     this.dialog.afterClosed().subscribe((result: DialogResult) => {
       this.dialog = undefined;
-      console.log('[day-schedule] closed dialog.');
 
       if (result === DialogResult.Saved) {
-        if (!!a.id) {
+        if (!!a && !!a.id && a.id.length > 0) {
           this.calendarService.updateAppointment(a).subscribe((res: any) => {
             this.rebuildSchedule();
           });
@@ -81,7 +79,7 @@ export class DayScheduleComponent implements OnInit {
   }
 
   protected scheduleAppointment(t: Timeslot) {
-    let appointment: Appointment = new Appointment(new ObjectId('', 1, 1, 1, 1), this.calDate, t, '');
+    let appointment: Appointment = new Appointment('', this.calDate, t, '');
     this.editAppointment(appointment);
   }
 
