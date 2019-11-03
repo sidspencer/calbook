@@ -16,7 +16,7 @@ namespace CalBookApi
         }
 
         // GET: api/Appointment
-        [HttpGet]
+        [HttpGet()]
         public async Task<IActionResult> Get()
         {
             return new ObjectResult(await calBookRepo.GetAllAppointments());
@@ -28,7 +28,7 @@ namespace CalBookApi
             return new ObjectResult(await calBookRepo.GetAppointmentsByDate(dateCode));
         }
 
-        // GET: api/Appointment/name
+        // GET: api/appointment/name
         [HttpGet("{id}", Name = "Get")]
         public async Task<IActionResult> Get(string id)
         {
@@ -40,17 +40,18 @@ namespace CalBookApi
             return new ObjectResult(appointment);
         }
 
-        // POST: api/Game
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Appointment appointment)
+        // PUT: api/appointment/
+        [HttpPut()]
+        public async Task<IActionResult> Put([FromBody]Appointment appointment)
         {
+            appointment.Id = ObjectId.Empty.ToString();
             await calBookRepo.CreateAppointment(appointment);
             return new OkObjectResult(appointment);
         }
 
-        // PUT: api/Game/5
-        [HttpPut]
-        public async Task<IActionResult> Put([FromBody]Appointment appointment)
+        // POST: api/appointment/
+        [HttpPost()]
+        public async Task<IActionResult> Post([FromBody]Appointment appointment)
         {
             await calBookRepo.UpdateAppointment(appointment);
             return new OkObjectResult(appointment);
