@@ -24,7 +24,7 @@ namespace CalBookApi
 
         public Task<Appointment> GetAppointment(string id)
         {
-            FilterDefinition<Appointment> filter = Builders<Appointment>.Filter.Eq(m => m.id, ObjectId.Parse(id));
+            FilterDefinition<Appointment> filter = Builders<Appointment>.Filter.Eq(m => m.Id, id);
 
             return _context
                     .Appointments
@@ -43,7 +43,7 @@ namespace CalBookApi
                 await _context
                         .Appointments
                         .ReplaceOneAsync(
-                            filter: m => m.id == appointment.id,
+                            filter: m => m.Id == appointment.Id,
                             replacement: appointment);
 
             return updateResult.IsAcknowledged
@@ -52,7 +52,7 @@ namespace CalBookApi
 
         public async Task<bool> DeleteAppointment(string id)
         {
-            FilterDefinition<Appointment> filter = Builders<Appointment>.Filter.Eq(m => m.id, ObjectId.Parse(id));
+            FilterDefinition<Appointment> filter = Builders<Appointment>.Filter.Eq(m => m.Id, id);
 
             DeleteResult deleteResult = await _context
                                                 .Appointments
