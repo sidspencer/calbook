@@ -5,11 +5,25 @@
    "version": "0.2.0",
    "configurations": [
        {
+           "name": "CalBookApi - Node",
+           "type": "node",
+           "request": "launch",
+           "cwd": "${workspaceFolder}/CalBookApi/",
+           "runtimeExecutable": "npm",
+           "runtimeArgs": [
+               "run-script",
+               "debug"
+           ],
+           "port": 9229
+       },
+
+       {
            "name": ".NET Core Attach",
            "type": "coreclr",
            "request": "attach",
            "processId": "${command:pickProcess}"
        },
+
        {
            "name": "CalBook - AppointmentApi",
            "type": "coreclr",
