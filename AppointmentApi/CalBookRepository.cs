@@ -32,18 +32,23 @@ namespace CalBookApi
                     .FirstOrDefaultAsync();
         }
        
-        public async Task CreateAppointment(Appointment appointment)
+        public async Task<Appointment> CreateAppointment(Appointment appointment)
         {
+            appointment.Id = ObjectId.GenerateNewId().ToString();
             await _context.Appointments.InsertOneAsync(appointment);
+
+            return appointment;
         }
 
         public async Task<bool> UpdateAppointment(Appointment appointment)
         {
+            FilterDefinition<Appointment> filter = Builders<Appointment>.Filter.Eq(m => m.Id, appointment.Id);
+            
             ReplaceOneResult updateResult =
                 await _context
                         .Appointments
                         .ReplaceOneAsync(
-                            filter: m => m.Id == appointment.Id,
+                            filter: filter,
                             replacement: appointment);
 
             return updateResult.IsAcknowledged
