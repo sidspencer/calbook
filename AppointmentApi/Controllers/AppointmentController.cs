@@ -57,7 +57,7 @@ namespace CalBookApi
             return new OkObjectResult(appointment);
         }
 
-        // DELETE: api/Appointment/5
+        // DELETE: api/appointment/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {

@@ -31,4 +31,8 @@ export class AppointmentEditorComponent implements OnInit {
     this.dialogRef.close(DialogResult.Saved);
   }
 
+  protected remove() {
+    console.log('[appointmen-editor] called "remove()"');
+    this.dialogRef.close(DialogResult.Deleted);
+  }
 }
