@@ -22,11 +22,11 @@ export class CalendarService {
     return (this.http.get('http://localhost:5000/api/appointment')) as Observable<Appointment[]>;
   }
 
-  public createAppointment(a: Appointment) {
-    return (this.http.post('http://localhost:5000/api/appointment', a));
+  public createAppointment(a: Appointment): Observable<any> {
+    return (this.http.put('http://localhost:5000/api/appointment', a) as Observable<any>);
   }
 
-  public updateAppointment(a: Appointment) {
-    return (this.http.put(`http://localhost:5000/api/appointment/`, a));
+  public updateAppointment(a: Appointment): Observable<any> {
+    return (this.http.post(`http://localhost:5000/api/appointment/`, a) as Observable<Appointment>);
   }
 }
