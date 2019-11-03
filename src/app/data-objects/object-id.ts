@@ -5,7 +5,7 @@ export class ObjectId {
     public pid: number;
     public increment: number;
 
-    constructor(creationTime: any, timestamp: number, machine: number, pid: number, increment: number) {
+    constructor(creationTime: string, timestamp: number, machine: number, pid: number, increment: number) {
         this.creationTime = creationTime;
         this.timestamp = timestamp;
         this.machine = machine;
