@@ -8,6 +8,7 @@ namespace CalBookApi
     {   
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
+        [BsonElement(elementName: "Id")]
         public string Id { get; set; }
 
         [BsonElement(elementName: "calDate")]
@@ -28,8 +29,8 @@ namespace CalBookApi
         }
 
         public Appointment() {
-            this.Id = "";
-            this.calDate = new CalDate();
+            this.Id = ObjectId.GenerateNewId().ToString();
+            this.calDate = new CalDate(1, 1, 1979);
             this.timeslot = new Timeslot(1);
             this.notes = "";
         }
