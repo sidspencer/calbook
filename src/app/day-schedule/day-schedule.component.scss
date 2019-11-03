@@ -1,0 +1,39 @@
+h2 {
+    color: blue;
+}
+
+div.schedule-stage {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+div.day-schedule {
+    position: absolute;
+    z-index: 2;
+    background-color: rgba(0,44,0,0.5);
+    margin: auto;
+    width: 80em;
+}
+
+div.day-schedule > div.hour-timeslot {
+    margin: 0;
+    border-bottom: 1px solid black;
+    border-collapse: collapse;
+    height: 1.5em;
+}
+
+span.appointment-holder {
+    display: inline-block;
+    width: 80%;
+}
+span.appointment {
+    display: inline-block;
+    margin: 0;
+    color: white;
+    background-color: rgba(200,200,200,0.3);
+    border-radius: 2px;
+    padding-left: 4em;
+    height: 1.5em;
+    width: 100%;
+}

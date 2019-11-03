@@ -1,0 +1,13 @@
+<div class="appointment-editor-holder">
+  <ul>
+    <li>Cal Date: {{ formattedDate }}</li>
+    <li>Timeslot: {{ appointment.timeslot.hour }}:00</li>
+    <li>Notes: <textarea matInput [(ngModel)]="appointment.notes"></textarea></li>
+  </ul>
+
+  <div>
+    <button (click)="save()">Save</button>
+    <button (click)="close()">Close</button>
+    <button (click)="remove()">Remove</button>
+  </div>
+</div>
