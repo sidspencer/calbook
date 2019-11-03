@@ -8,6 +8,7 @@ import { Appointment } from '../data-objects/appointment';
 import { MatDialog } from '@angular/material/dialog';
 import { AppointmentEditorComponent } from '../appointment-editor/appointment-editor.component';
 import { NumberUtil } from '../util-objects/number-util';
+import { ObjectId } from '../data-objects/object-id';
 
 @Component({
   selector: 'app-day-schedule',
@@ -62,19 +63,25 @@ export class DayScheduleComponent implements OnInit {
       console.log('[day-schedule] closed dialog.');
 
       if (result === DialogResult.Saved) {
-        this.calendarService.updateAppointment(a).subscribe((res: any) => {
-          this.rebuildSchedule();
-        });
+        if (!!a.id) {
+          this.calendarService.updateAppointment(a).subscribe((res: any) => {
+            this.rebuildSchedule();
+          });
+        } else {
+          this.calendarService.createAppointment(a).subscribe((res: any) => {
+            this.rebuildSchedule();
+          });
+        }
       } else if (result === DialogResult.Deleted) {
         this.calendarService.deleteAppointment(a).subscribe((res: any) => {
-
+          this.rebuildSchedule();
         });
       }
     });
   }
 
   protected scheduleAppointment(t: Timeslot) {
-    const appointment: Appointment = new Appointment(this.calDate, t, '');
+    let appointment: Appointment = new Appointment(new ObjectId('', 1, 1, 1, 1), this.calDate, t, '');
     this.editAppointment(appointment);
   }
 

@@ -1,12 +1,8 @@
 <div class="appointment-editor-holder">
-  <p>
-    appointment-editor
-  </p>
-
   <ul>
     <li>Cal Date: {{ formattedDate }}</li>
     <li>Timeslot: {{ appointment.timeslot.hour }}:00</li>
-    <li>Notes: {{ appointment.notes }}</li>
+    <li>Notes: <textarea matInput [(ngModel)]="appointment.notes"></textarea></li>
   </ul>
 
   <div>
