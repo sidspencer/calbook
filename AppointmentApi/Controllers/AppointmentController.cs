@@ -30,7 +30,7 @@ namespace CalBookApi
 
         // GET: api/Appointment/name
         [HttpGet("{id}", Name = "Get")]
-        public async Task<IActionResult> Get(ObjectId id)
+        public async Task<IActionResult> Get(string id)
         {
             var appointment = await calBookRepo.GetAppointment(id);
 
@@ -49,24 +49,16 @@ namespace CalBookApi
         }
 
         // PUT: api/Game/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(ObjectId id, [FromBody]Appointment appointment)
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody]Appointment appointment)
         {
-            var appointmentFromDb = await calBookRepo.GetAppointment(id);
-
-            if (appointmentFromDb == null)
-                return new NotFoundResult();
-
-            appointment.id = appointmentFromDb.id;
-
             await calBookRepo.UpdateAppointment(appointment);
-
             return new OkObjectResult(appointment);
         }
 
         // DELETE: api/Appointment/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(ObjectId id)
+        public async Task<IActionResult> Delete(string id)
         {
             var appointmentFromDb = await calBookRepo.GetAppointment(id);
 

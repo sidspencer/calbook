@@ -20,6 +20,12 @@ namespace CalBookApi {
             this.dd = dD;
         }
 
+        public CalDate() {
+            this.yyyy = 2001;
+            this.dd = 1;
+            this.mm = 1;
+        }
+
         public CalDate(string dateCode) {
             this.yyyy = int.Parse(dateCode.Substring(0, 4));
             this.mm = int.Parse(dateCode.Substring(4, 2));

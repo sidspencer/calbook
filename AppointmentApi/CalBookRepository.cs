@@ -22,9 +22,9 @@ namespace CalBookApi
                             .ToListAsync();
         }
 
-        public Task<Appointment> GetAppointment(ObjectId id)
+        public Task<Appointment> GetAppointment(string id)
         {
-            FilterDefinition<Appointment> filter = Builders<Appointment>.Filter.Eq(m => m.id, id);
+            FilterDefinition<Appointment> filter = Builders<Appointment>.Filter.Eq(m => m.id, ObjectId.Parse(id));
 
             return _context
                     .Appointments
@@ -43,16 +43,16 @@ namespace CalBookApi
                 await _context
                         .Appointments
                         .ReplaceOneAsync(
-                            filter: g => g.id == appointment.id,
+                            filter: m => m.id == appointment.id,
                             replacement: appointment);
 
             return updateResult.IsAcknowledged
                     && updateResult.ModifiedCount > 0;
         }
 
-        public async Task<bool> DeleteAppointment(ObjectId id)
+        public async Task<bool> DeleteAppointment(string id)
         {
-            FilterDefinition<Appointment> filter = Builders<Appointment>.Filter.Eq(m => m.id, id);
+            FilterDefinition<Appointment> filter = Builders<Appointment>.Filter.Eq(m => m.id, ObjectId.Parse(id));
 
             DeleteResult deleteResult = await _context
                                                 .Appointments

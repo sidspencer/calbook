@@ -14,5 +14,7 @@ namespace CalBookApi
         public Timeslot(int hOur) {
             this.hour = hOur;
         }
+
+        public Timeslot() {}
     }
 }

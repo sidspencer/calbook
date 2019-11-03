@@ -8,9 +8,9 @@ namespace CalBookApi
     {
         Task<IEnumerable<Appointment>> GetAllAppointments();
         Task<IEnumerable<Appointment>> GetAppointmentsByDate(string dateCode);
-        Task<Appointment> GetAppointment(ObjectId name);
-        Task CreateAppointment(Appointment game);
-        Task<bool> UpdateAppointment(Appointment game);
-        Task<bool> DeleteAppointment(ObjectId name);
+        Task<Appointment> GetAppointment(string id);
+        Task CreateAppointment(Appointment appointment);
+        Task<bool> UpdateAppointment(Appointment appointment);
+        Task<bool> DeleteAppointment(string id);
     }
 }
