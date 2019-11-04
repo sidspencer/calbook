@@ -1,4 +1,5 @@
 const mongo = require('mongodb').MongoClient;
+var ObjectId = require('mongodb').ObjectID;
 const url = 'mongodb://localhost:27017'
 
 class CalBookRepo {
@@ -12,6 +13,7 @@ class CalBookRepo {
                 }
     
                 client.db('CalBookDB').collection('Appointment').find().toArray((err, items) => {
+                    console.log('fetched appointments all');
                     resolve(items);
                 });
             });
@@ -28,12 +30,9 @@ class CalBookRepo {
                     reject(err);
                     return;
                 }
-
-                let y = Number.parseInt(yyyy);
-                let m = Number.parseInt(mm);
-                let d = Number.parseInt(dd);
     
-                client.db('CalBookDB').collection('Appointment').find({ 'calDate.yyyy' : y, 'calDate.mm': m, 'calDate.dd': d }).toArray((err, items) => {
+                client.db('CalBookDB').collection('Appointment').find({ 'calDate.yyyy' : yyyy, 'calDate.mm': mm, 'calDate.dd': dd }).toArray((err, items) => {
+                    console.log('fetched appointments by date')
                     resolve(items);
                 });
             });
@@ -52,7 +51,7 @@ class CalBookRepo {
                 }
     
                 client.db('CalBookDB').collection('Appointment').insertOne(a, (err, result) => {
-                    console.log('created new appointment');
+                    console.log('created appointment');
                     resolve(result);
                 });
             });
@@ -62,6 +61,7 @@ class CalBookRepo {
     }
 
     static updateAppointment(a) {
+        var appointment = a;
         const p = new Promise((resolve, reject) => {
             mongo.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
                 if (err) {
@@ -70,7 +70,15 @@ class CalBookRepo {
                     return;
                 }
     
-                client.db('CalBookDB').collection('Appointment').updateOne({'_id': a._id}, a, (err, result) => {
+                client.db('CalBookDB').collection('Appointment').updateOne({'_id': new ObjectId(appointment._id)}, {
+                    '$set': {
+                        'notes': appointment.notes,
+                        'calDate.yyyy': appointment.calDate.yyyy,
+                        'calDate.mm': appointment.calDate.mm,
+                        'calDate.dd': appointment.calDate.dd,
+                        'timeslot.hour': appointment.timeslot.hour,
+                    }
+                }, (err, result) => {
                     console.log('updated appointment');
                     resolve(result);
                     return;
@@ -81,7 +89,8 @@ class CalBookRepo {
         return p;
     }
 
-    static deleteAppointment(a) {
+    static deleteAppointment(aId) {
+        var appointmentId = aId;
         const p = new Promise((resolve, reject) => {
             mongo.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
                 if (err) {
@@ -90,8 +99,8 @@ class CalBookRepo {
                     return;
                 }
     
-                client.db('CalBookDB').collection('Appointment').deleteOne({'_id': a._id}, (err, result) => {
-                    console.log('updated appointment');
+                client.db('CalBookDB').collection('Appointment').deleteOne({'_id': new ObjectId(appointmentId)}, (err, result) => {
+                    console.log('deleted appointment');
                     resolve(result);
                     return;
                 });
