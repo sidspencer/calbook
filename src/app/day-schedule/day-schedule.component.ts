@@ -20,10 +20,12 @@ export class DayScheduleComponent implements OnInit {
   protected appointments: Appointment[] = [];
   protected timeslots: Timeslot[] = [];
   protected dialog: any = undefined;
+  protected obscureScheduleUi: boolean = true;
 
   constructor(protected activatedRoute: ActivatedRoute,
               protected calendarService: CalendarService,
               protected appointmentEditor: MatDialog) {
+                this.obscureScheduleUi = true;
   }
 
   ngOnInit() {
@@ -35,9 +37,12 @@ export class DayScheduleComponent implements OnInit {
   }
 
   protected rebuildSchedule(): void {
+    this.obscureScheduleUi = true;
+
     this.calendarService.fetchAppointmentsByDate(this.calDate).subscribe((appointments: Appointment[]) => {
       this.appointments.splice(0);
       appointments.forEach((a: Appointment) => {
+        a.id = a._id;
         this.appointments.push(a);
       });
 
@@ -45,6 +50,8 @@ export class DayScheduleComponent implements OnInit {
       for (let i = 0; i < TimeVal.HoursInDay; i++) {
         this.timeslots.push(new Timeslot(i));
       }
+
+      this.obscureScheduleUi = false;
     });
   }
 
@@ -61,7 +68,7 @@ export class DayScheduleComponent implements OnInit {
       this.dialog = undefined;
 
       if (result === DialogResult.Saved) {
-        if (!!a && !!a.id && a.id.length > 0) {
+        if (NumberUtil.getIdProp(a).length > 0) {
           this.calendarService.updateAppointment(a).subscribe((res: any) => {
             this.rebuildSchedule();
           });

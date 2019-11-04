@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { CalDate } from '../data-objects/cal-date';
 import { Appointment } from '../data-objects/appointment';
+import { NumberUtil } from '../util-objects/number-util';
 
 const baseUrl = 'http://localhost:3003';
 //const baseUrl = 'http://localhost:5000';
@@ -12,7 +13,8 @@ const baseUrl = 'http://localhost:3003';
 })
 export class CalendarService {
   deleteAppointment(a: Appointment): Observable<any> {
-    return (this.http.delete(`${baseUrl}/api/appointment/${a.id}`) as Observable<any>);
+    let aId = NumberUtil.getIdProp(a);
+    return (this.http.delete(`${baseUrl}/api/appointment/${aId}`) as Observable<any>);
   }
 
   constructor(protected http: HttpClient) { }
