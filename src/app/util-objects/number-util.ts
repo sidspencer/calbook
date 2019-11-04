@@ -1,4 +1,5 @@
 import { CalDate } from '../data-objects/cal-date';
+import { Appointment } from '../data-objects/appointment';
 
 export class NumberUtil {
     public static toDateCode(cd: CalDate): string {
@@ -15,5 +16,17 @@ export class NumberUtil {
         const yyyyString = `${cd.yyyy}`;
 
         return `${mmString}/${ddString}/${yyyyString}`;
+    }
+
+    public static getIdProp(a: Appointment): string {
+        if ('id' in a && !!a.id && a.id.length > 0) {
+            return a.id;
+        }
+        else if ('_id' in a && !!a._id && a._id.length > 9) {
+            return a._id;
+        }
+        else {
+            return '';
+        }
     }
 }
