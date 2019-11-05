@@ -4,6 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace CalBookApi
 {
+    [BsonIgnoreExtraElements]
     public class Appointment
     {   
         [BsonId]
