@@ -1,9 +1,7 @@
 <h2>Schedule for: {{ formattedDate }}</h2>
 
 <div class="schedule-stage">
-    <div *ngIf="obscureScheduleUi">Loading.........</div>
-    
-    <div class="day-schedule"  *ngIf="!obscureScheduleUi">
+    <div class="day-schedule">
         <div *ngFor="let t of timeslots" class="hour-timeslot">
             {{ t.hour }}:00
             <span *ngIf="getAppointmentByTimeslot(t) !== undefined;else add_appointment_button" class="appointment-holder">
@@ -13,5 +11,6 @@
                 <span (click)="scheduleAppointment(t)">[+]</span>
             </ng-template>
         </div>
-    </div>  
+    </div>
+    <div *ngIf="obscureScheduleUi" class="schedule-overlay">LOADING...</div>    
 </div>

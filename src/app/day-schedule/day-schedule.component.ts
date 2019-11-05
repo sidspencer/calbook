@@ -40,11 +40,7 @@ export class DayScheduleComponent implements OnInit {
     this.obscureScheduleUi = true;
 
     this.calendarService.fetchAppointmentsByDate(this.calDate).subscribe((appointments: Appointment[]) => {
-      this.appointments.splice(0);
-      appointments.forEach((a: Appointment) => {
-        a.id = a._id;
-        this.appointments.push(a);
-      });
+      this.appointments = appointments;
 
       this.timeslots = [];
       for (let i = 0; i < TimeVal.HoursInDay; i++) {
